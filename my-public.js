@@ -1,1 +1,488 @@
-const _0x1bb0cc=_0x1b6c;(function(_0x4f2868,_0x14d41d){const _0x3d3593=_0x1b6c,_0x562b4d=_0x4f2868();while(!![]){try{const _0x5e6a19=-parseInt(_0x3d3593(0x15a))/0x1*(-parseInt(_0x3d3593(0x132))/0x2)+-parseInt(_0x3d3593(0x169))/0x3+parseInt(_0x3d3593(0x156))/0x4+-parseInt(_0x3d3593(0x133))/0x5*(parseInt(_0x3d3593(0x160))/0x6)+-parseInt(_0x3d3593(0x134))/0x7+-parseInt(_0x3d3593(0x151))/0x8*(parseInt(_0x3d3593(0x12c))/0x9)+parseInt(_0x3d3593(0x149))/0xa;if(_0x5e6a19===_0x14d41d)break;else _0x562b4d['push'](_0x562b4d['shift']());}catch(_0x2ec299){_0x562b4d['push'](_0x562b4d['shift']());}}}(_0x18a3,0x382ef));function _0x1b6c(_0x2cec0c,_0x4ef277){const _0x18a3b7=_0x18a3();return _0x1b6c=function(_0x1b6c95,_0x5db52b){_0x1b6c95=_0x1b6c95-0x12a;let _0x37c08d=_0x18a3b7[_0x1b6c95];return _0x37c08d;},_0x1b6c(_0x2cec0c,_0x4ef277);}import{initializeApp}from'https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js';import{getDatabase,ref,push,onChildAdded,onChildRemoved,remove,onValue,set,off}from'https://www.gstatic.com/firebasejs/9.22.2/firebase-database.js';import{getStorage,ref as _0x48b000,uploadBytes,getDownloadURL}from'https://www.gstatic.com/firebasejs/9.22.2/firebase-storage.js';const firebaseConfig={'apiKey':'AIzaSyDhYta0w2K_DQwa0SlBDA3FnfRNqog-ejE','authDomain':_0x1bb0cc(0x16c),'databaseURL':_0x1bb0cc(0x158),'projectId':'imagefeed-45d0e','storageBucket':_0x1bb0cc(0x14b),'messagingSenderId':_0x1bb0cc(0x13a),'appId':_0x1bb0cc(0x141)},app=initializeApp(firebaseConfig),db=getDatabase(app),storage=getStorage(app),chatRef=ref(db,_0x1bb0cc(0x146)),activeUsersRef=ref(db,'activeUsers'),kickedUsersRef=ref(db,_0x1bb0cc(0x142)),noticeRef=ref(db,_0x1bb0cc(0x159));function _0x18a3(){const _0x22d6f9=['UPLOAD\x20FAILED','886161237670','2001','Username\x20must\x20be\x20at\x20least\x203\x20characters','size','joinForm','textContent','style','1:886161237670:web:105822aeb49c11340d7667','kickedUsers','Invalid\x20join\x20code','joinCode','contextmenu','globalChat','appendChild','display','7833750ljdrSR','messageInput','imagefeed-45d0e.firebasestorage.app','ctrlKey','files','\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<strong>','\x0a\x20\x20\x20\x20\x20\x20\x20\x20','activeUsers/','8rQJIps','kickedUsers/','trim','value','logout','1006608MoHNNs','key','https://imagefeed-45d0e-default-rtdb.firebaseio.com','notice/currentNotice','63359OFZSqe','sendMessage','target','addEventListener','name','\x22\x20/>\x0a\x20\x20\x20\x20\x20\x20\x20\x20','60252TcynGf','remove','UPLOAD\x20ERROR:','kickedMessage','msg','className','messages','beforeunload','noticeContainer','686520PWiqJu','</strong>:\x20','joinError','imagefeed-45d0e.firebaseapp.com','exists','username','getElementById','now','length','createElement','imageUpload','scrollTop','1127007dKTEXS','IMAGE\x20TOO\x20LARGE\x20(MAX\x202MB)','chatRoom','none','F12','change','6cQCkTM','160BxVAuR','2236990gyoRhA','joinChat','innerHTML','</strong>\x20sent\x20an\x20image:\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<br><img\x20src=\x22','block'];_0x18a3=function(){return _0x22d6f9;};return _0x18a3();}let username='',currentUserId=null,userKickListener=null;function fetchNotice(){onValue(noticeRef,_0x46a5ab=>{const _0x1bd242=_0x1b6c,_0x2eeda0=_0x46a5ab['val'](),_0x52d065=document['getElementById'](_0x1bd242(0x168));_0x2eeda0?document[_0x1bd242(0x16f)]('noticeContent')[_0x1bd242(0x13f)]=_0x2eeda0:document[_0x1bd242(0x16f)]('noticeContent')[_0x1bd242(0x13f)]='No\x20current\x20notices';});}fetchNotice();function checkIfKicked(){const _0x506bfa=_0x1bb0cc;if(!currentUserId)return;userKickListener=onValue(ref(db,_0x506bfa(0x152)+currentUserId),_0x77bf7e=>{const _0x2cc2c4=_0x506bfa;_0x77bf7e[_0x2cc2c4(0x16d)]()&&(handleKick(),remove(ref(db,_0x2cc2c4(0x152)+currentUserId)));});}function handleKick(){const _0x406c6b=_0x1bb0cc;logout(),document['getElementById'](_0x406c6b(0x12e))['style']['display']=_0x406c6b(0x12f),document[_0x406c6b(0x16f)](_0x406c6b(0x13e))[_0x406c6b(0x140)][_0x406c6b(0x148)]=_0x406c6b(0x12f),document['getElementById'](_0x406c6b(0x163))[_0x406c6b(0x140)][_0x406c6b(0x148)]='block',setTimeout(()=>{const _0x95d04b=_0x406c6b;document[_0x95d04b(0x16f)](_0x95d04b(0x163))[_0x95d04b(0x140)][_0x95d04b(0x148)]=_0x95d04b(0x12f),document[_0x95d04b(0x16f)](_0x95d04b(0x13e))[_0x95d04b(0x140)]['display']=_0x95d04b(0x138);},0x1388);}window[_0x1bb0cc(0x135)]=()=>{const _0x14b662=_0x1bb0cc,_0x46016d=document[_0x14b662(0x16f)](_0x14b662(0x16e)),_0xdaacc6=document[_0x14b662(0x16f)](_0x14b662(0x144)),_0x11cb6e=document[_0x14b662(0x16f)](_0x14b662(0x16b)),_0x310059=_0x46016d[_0x14b662(0x154)][_0x14b662(0x153)](),_0x4e7b08=_0xdaacc6[_0x14b662(0x154)];if(!_0x310059||_0x310059[_0x14b662(0x171)]<0x3){_0x11cb6e['textContent']=_0x14b662(0x13c);return;}if(_0x4e7b08!==_0x14b662(0x13b)){_0x11cb6e[_0x14b662(0x13f)]=_0x14b662(0x143);return;}_0x11cb6e['textContent']='',username=_0x310059,currentUserId=Date[_0x14b662(0x170)]()['toString'](),document[_0x14b662(0x16f)]('joinForm')[_0x14b662(0x140)][_0x14b662(0x148)]='none',document[_0x14b662(0x16f)](_0x14b662(0x12e))[_0x14b662(0x140)][_0x14b662(0x148)]='block',document[_0x14b662(0x16f)](_0x14b662(0x168))['style'][_0x14b662(0x148)]=_0x14b662(0x12f),document[_0x14b662(0x16f)](_0x14b662(0x12a))['addEventListener'](_0x14b662(0x131),handleImageUpload),set(ref(db,_0x14b662(0x150)+currentUserId),username),checkIfKicked(),window['addEventListener'](_0x14b662(0x167),()=>{const _0x313570=_0x14b662;remove(ref(db,_0x313570(0x150)+currentUserId));});},window[_0x1bb0cc(0x155)]=()=>{const _0x5c0aa0=_0x1bb0cc;currentUserId&&remove(ref(db,_0x5c0aa0(0x150)+currentUserId)),username='',currentUserId=null,document['getElementById'](_0x5c0aa0(0x13e))['style'][_0x5c0aa0(0x148)]=_0x5c0aa0(0x138),document[_0x5c0aa0(0x16f)](_0x5c0aa0(0x12e))[_0x5c0aa0(0x140)][_0x5c0aa0(0x148)]=_0x5c0aa0(0x12f),document[_0x5c0aa0(0x16f)](_0x5c0aa0(0x168))[_0x5c0aa0(0x140)][_0x5c0aa0(0x148)]=_0x5c0aa0(0x138),document[_0x5c0aa0(0x16f)](_0x5c0aa0(0x166))[_0x5c0aa0(0x136)]='',document[_0x5c0aa0(0x16f)](_0x5c0aa0(0x16b))[_0x5c0aa0(0x13f)]='',userKickListener&&(off(ref(db,'kickedUsers/'+currentUserId),userKickListener),userKickListener=null);};async function handleImageUpload(_0x67228b){const _0x3c6c1a=_0x1bb0cc,_0x195091=_0x67228b[_0x3c6c1a(0x15c)][_0x3c6c1a(0x14d)][0x0];if(!_0x195091)return;if(_0x195091[_0x3c6c1a(0x13d)]>0x2*0x400*0x400){alert(_0x3c6c1a(0x12d));return;}try{const _0x3f7b6e=_0x48b000(storage,'chat_images/'+Date['now']()+'_'+_0x195091[_0x3c6c1a(0x15e)]);await uploadBytes(_0x3f7b6e,_0x195091);const _0x2c34d1=await getDownloadURL(_0x3f7b6e);push(chatRef,{'name':username,'imageUrl':_0x2c34d1,'timestamp':Date[_0x3c6c1a(0x170)](),'userId':currentUserId}),_0x67228b['target']['value']='';}catch(_0x7ac48){console['error'](_0x3c6c1a(0x162),_0x7ac48),alert(_0x3c6c1a(0x139));}}window[_0x1bb0cc(0x15b)]=()=>{const _0x3d735c=_0x1bb0cc,_0x328e55=document[_0x3d735c(0x16f)]('messageInput')[_0x3d735c(0x154)][_0x3d735c(0x153)]();_0x328e55!==''&&(push(chatRef,{'name':username,'message':_0x328e55,'timestamp':Date[_0x3d735c(0x170)](),'userId':currentUserId}),document[_0x3d735c(0x16f)](_0x3d735c(0x14a))['value']='');},onChildAdded(chatRef,_0x5153ae=>{const _0x413783=_0x1bb0cc,{name:_0x426680,message:_0x52a345,imageUrl:_0x99d324}=_0x5153ae['val'](),_0x32a792=document[_0x413783(0x172)]('div');_0x32a792[_0x413783(0x165)]=_0x99d324?'msg\x20img-msg':_0x413783(0x164),_0x32a792['id']=_0x5153ae['key'];_0x99d324?_0x32a792['innerHTML']=_0x413783(0x14e)+_0x426680+_0x413783(0x137)+_0x99d324+_0x413783(0x15f):_0x32a792[_0x413783(0x136)]=_0x413783(0x14e)+_0x426680+_0x413783(0x16a)+_0x52a345+_0x413783(0x14f);const _0x69d3f2=document['getElementById'](_0x413783(0x166));_0x69d3f2[_0x413783(0x147)](_0x32a792),_0x69d3f2[_0x413783(0x12b)]=_0x69d3f2['scrollHeight'];}),onChildRemoved(chatRef,_0x2d750f=>{const _0xa48fca=_0x1bb0cc,_0x483365=document[_0xa48fca(0x16f)](_0x2d750f[_0xa48fca(0x157)]);_0x483365&&_0x483365[_0xa48fca(0x161)]();}),document[_0x1bb0cc(0x15d)](_0x1bb0cc(0x145),_0x3086de=>_0x3086de['preventDefault']()),document[_0x1bb0cc(0x15d)]('keydown',_0x5f4c80=>{const _0x11e1a9=_0x1bb0cc;(_0x5f4c80[_0x11e1a9(0x157)]===_0x11e1a9(0x130)||_0x5f4c80[_0x11e1a9(0x14c)]&&_0x5f4c80['shiftKey']&&(_0x5f4c80['key']==='I'||_0x5f4c80[_0x11e1a9(0x157)]==='J')||_0x5f4c80[_0x11e1a9(0x14c)]&&_0x5f4c80[_0x11e1a9(0x157)]==='U')&&_0x5f4c80['preventDefault']();});
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
+    import {
+      getDatabase, ref, set, get, update, onValue, onDisconnect, serverTimestamp
+    } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-database.js";
+
+    // Firebase config
+    const firebaseConfig = {
+      apiKey: "AIzaSyDhYta0w2K_DQwa0SlBDA3FnfRNqog-ejE",
+      authDomain: "imagefeed-45d0e.firebaseapp.com",
+      databaseURL: "https://imagefeed-45d0e-default-rtdb.firebaseio.com",
+      projectId: "imagefeed-45d0e",
+      storageBucket: "imagefeed-45d0e.appspot.com",
+      messagingSenderId: "886161237670",
+      appId: "1:886161237670:web:105822aeb49c11340d7667"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+    const statusIndicator = document.getElementById('statusIndicator');
+
+    // Connection status
+    const connectedRef = ref(db, ".info/connected");
+    onValue(connectedRef, (snap) => {
+      if (snap.val() === true) {
+        statusIndicator.classList.remove('offline');
+      } else {
+        statusIndicator.classList.add('offline');
+      }
+    });
+
+    // DOM Elements
+    const loginContainer = document.getElementById('loginContainer');
+    const appContainer = document.getElementById('appContainer');
+    const loginForm = document.getElementById('loginForm');
+    const loginBtn = document.getElementById('loginBtn');
+    const loginSpinner = document.getElementById('loginSpinner');
+    const nameInput = document.getElementById('name');
+    const phoneInput = document.getElementById('phone');
+    const memberCodeInput = document.getElementById('memberCode');
+    const acceptTerms = document.getElementById('acceptTerms');
+    const nameError = document.getElementById('nameError');
+    const phoneError = document.getElementById('phoneError');
+    const codeError = document.getElementById('codeError');
+    const termsError = document.getElementById('termsError');
+    const usernameEl = document.getElementById('username');
+    const firebaseCoinCount = document.getElementById('firebase-coin-count');
+    const sessionCoinsEl = document.getElementById('session-coins');
+    const miningStatsEl = document.getElementById('miningStats');
+    const miningCircle = document.getElementById('miningCircle');
+    const transferBtn = document.getElementById('transferBtn');
+    const noticeContent = document.getElementById('noticeContent');
+    const logoutBtn = document.getElementById('logoutBtn');
+
+    // User data
+    let currentUser = null;
+    let sessionCoins = 0;
+    let firebaseCoins = 0;
+    let canMine = true; // Flag to control mining cooldown
+
+    // Initialize app
+    window.addEventListener('load', async () => {
+      const savedUser = localStorage.getItem('slideUser');
+      if (savedUser) {
+        currentUser = JSON.parse(savedUser);
+
+        try {
+          const userRef = ref(db, `Mining/Users/${currentUser.phone}`);
+          const snapshot = await get(userRef);
+
+          if (snapshot.exists()) {
+            // Ban check for existing session
+            if (snapshot.val().status === "banned") {
+              alert("🚫 Your account is suspended. You cannot mine coins.");
+              localStorage.removeItem('slideUser');
+              loginContainer.style.display = 'block';
+              appContainer.style.display = 'none';
+              return;
+            }
+
+            firebaseCoins = snapshot.val().coins || 0;
+            usernameEl.textContent = currentUser.name;
+            firebaseCoinCount.textContent = firebaseCoins;
+
+            // Set up realtime updates for coins & notice
+            onValue(userRef, (snap) => {
+              if (snap.exists()) {
+                const data = snap.val();
+                firebaseCoins = data.coins || 0;
+                firebaseCoinCount.textContent = firebaseCoins;
+                noticeContent.textContent = data.notice || `Welcome ${currentUser.name}!`;
+              }
+            });
+
+            // Auto-logout if admin sets `logout = true`
+            onValue(userRef, (snap) => {
+              if (snap.exists() && snap.val().logout === true) {
+                alert("⚠️ An update arrived, Please Relogin.");
+
+                // Clear data
+                localStorage.removeItem('slideUser');
+                localStorage.removeItem('sessionCoins');
+                currentUser = null;
+                sessionCoins = 0;
+
+                // Reset UI
+                sessionCoinsEl.textContent = '0';
+                firebaseCoinCount.textContent = '0';
+                usernameEl.textContent = 'Guest Miner';
+                miningStatsEl.textContent = 'Click the circle to start mining coins!';
+                loginContainer.style.display = 'block';
+                appContainer.style.display = 'none';
+
+                // Clear input
+                nameInput.value = '';
+                phoneInput.value = '';
+                memberCodeInput.value = '';
+                acceptTerms.checked = false;
+
+                // Reset logout flag to allow re-login
+                update(userRef, { logout: false });
+              }
+            });
+
+            // Load saved session coins
+            const savedSessionCoins = localStorage.getItem('sessionCoins');
+            sessionCoins = savedSessionCoins ? parseInt(savedSessionCoins) : 0;
+            sessionCoinsEl.textContent = sessionCoins;
+
+            showApp();
+          } else {
+            localStorage.removeItem('slideUser');
+            loginContainer.style.display = 'block';
+            appContainer.style.display = 'none';
+          }
+        } catch (error) {
+          console.error('Session restore error:', error);
+          localStorage.removeItem('slideUser');
+          loginContainer.style.display = 'block';
+          appContainer.style.display = 'none';
+        }
+      }
+    });
+
+    // Login functionality
+    loginBtn.addEventListener('click', async () => {
+      // Reset errors
+      nameError.style.display = 'none';
+      phoneError.style.display = 'none';
+      codeError.style.display = 'none';
+      termsError.style.display = 'none';
+      
+      // Get input values
+      const name = nameInput.value.trim();
+      const phone = phoneInput.value.trim();
+      const memberCode = memberCodeInput.value.trim();
+      const termsAccepted = acceptTerms.checked;
+      
+      // Validate inputs
+      let isValid = true;
+      if (!name) {
+        nameError.style.display = 'block';
+        isValid = false;
+      }
+      if (!phone || phone.length < 10) {
+        phoneError.style.display = 'block';
+        isValid = false;
+      }
+      if (!memberCode) {
+        codeError.style.display = 'block';
+        isValid = false;
+      }
+      if (!termsAccepted) {
+        termsError.style.display = 'block';
+        isValid = false;
+      }
+      
+      if (!isValid) return;
+      
+      // Show loading spinner
+      loginBtn.style.display = 'none';
+      loginSpinner.style.display = 'block';
+      
+      try {
+        // Create user object
+        const user = {
+          name,
+          phone,
+          memberCode,
+          coins: 0,
+          lastLogin: new Date().toISOString(),
+          notice: `Welcome ${name}!`, // Default notice
+          termsAccepted: true,
+          termsAcceptedDate: new Date().toISOString()
+        };
+        
+        // Save user to Firebase
+        const userRef = ref(db, `Mining/Users/${phone}`);
+        
+        // Check if user exists
+        const snapshot = await get(userRef);
+        if (snapshot.exists()) {
+          // Ban check for login
+          if (snapshot.val().status === "banned") {
+            alert("🚫 Your account is suspended. You cannot mine coins.");
+            loginBtn.style.display = 'block';
+            loginSpinner.style.display = 'none';
+            return;
+          }
+
+          // Existing user - update last login and terms acceptance
+          await update(userRef, {
+            lastLogin: new Date().toISOString(),
+            termsAccepted: true,
+            termsAcceptedDate: new Date().toISOString()
+          });
+          // Get existing coins
+          firebaseCoins = snapshot.val().coins || 0;
+          
+          // Use existing notice if available, otherwise set default
+          if (snapshot.val().notice) {
+            noticeContent.textContent = snapshot.val().notice;
+          } else {
+            noticeContent.textContent = `Welcome ${name}!`;
+          }
+        } else {
+          // New user - create record with default notice
+          await set(userRef, user);
+          firebaseCoins = 0;
+          noticeContent.textContent = `Welcome ${name}!`;
+        }
+        
+        // Set current user
+        currentUser = {
+          name,
+          phone,
+          memberCode
+        };
+        
+        // Save to localStorage
+        localStorage.setItem('slideUser', JSON.stringify(currentUser));
+        
+        // Update UI
+        usernameEl.textContent = name;
+        firebaseCoinCount.textContent = firebaseCoins;
+        
+        // Set up realtime listener for coin updates
+        onValue(userRef, (snap) => {
+          if (snap.exists()) {
+            firebaseCoins = snap.val().coins || 0;
+            firebaseCoinCount.textContent = firebaseCoins;
+            
+            // Update notice if it exists in user data
+            if (snap.val().notice) {
+              noticeContent.textContent = snap.val().notice;
+            }
+          }
+        });
+        
+        // Show app
+        showApp();
+        
+      } catch (error) {
+        console.error('Login error:', error);
+        miningStatsEl.textContent = 'Login failed. Please try again.';
+      } finally {
+        // Hide spinner, show button
+        loginBtn.style.display = 'block';
+        loginSpinner.style.display = 'none';
+      }
+    });
+
+    // Show the app interface
+    function showApp() {
+      loginContainer.style.display = 'none';
+      appContainer.style.display = 'block';
+      
+      // Set up mining event
+      miningCircle.addEventListener("click", mineCoins);
+      
+      // Set up transfer event
+      transferBtn.addEventListener("click", transferCoins);
+    }
+
+    // Mining functionality with 0.3-second cooldown
+    function mineCoins(e) {
+      if (!currentUser || !canMine) return;
+      
+      // Ban check for mining
+      const userRef = ref(db, `Mining/Users/${currentUser.phone}`);
+      get(userRef).then(snapshot => {
+        if (snapshot.exists() && snapshot.val().status === "banned") {
+          alert("🚫 You are banned from mining.");
+          return;
+        }
+
+        // Set cooldown
+        canMine = false;
+        setTimeout(() => {
+          canMine = true;
+        }, 300); // 0.3 second cooldown
+        
+        // Create visual effects
+        createClickEffect(e);
+        createCoinAnimation(e);
+        
+        // Calculate new coins
+        const coinsEarned = 1 + Math.floor(Math.random() * 2); // 1-2 coins per tap
+        sessionCoins += coinsEarned;
+        
+        // Update UI
+        sessionCoinsEl.textContent = sessionCoins;
+        miningStatsEl.textContent = `+${coinsEarned} coins mined! Session: ${sessionCoins}`;
+        
+        // Save to localStorage
+        localStorage.setItem('sessionCoins', sessionCoins);
+        
+        // Reset message after 3 seconds
+        setTimeout(() => {
+          miningStatsEl.textContent = "Keep mining for more coins!";
+        }, 3000);
+      });
+    }
+
+    // Transfer coins to Firebase
+    async function transferCoins() {
+      if (!currentUser || sessionCoins <= 0) return;
+      
+      try {
+        // Show loading
+        transferBtn.textContent = "Transferring...";
+        transferBtn.disabled = true;
+        
+        // Get current user reference
+        const userRef = ref(db, `Mining/Users/${currentUser.phone}`);
+        
+        // Get current coin balance from Firebase
+        const snapshot = await get(userRef);
+        let currentCoins = 0;
+        
+        if (snapshot.exists()) {
+          currentCoins = snapshot.val().coins || 0;
+        }
+        
+        // Calculate new balance
+        const newCoins = currentCoins + sessionCoins;
+        
+        // Update Firebase
+        await update(userRef, {
+          coins: newCoins,
+          lastTransfer: serverTimestamp()
+        });
+        
+        // Update UI
+        firebaseCoins = newCoins;
+        firebaseCoinCount.textContent = newCoins;
+        
+        // Reset session coins
+        sessionCoins = 0;
+        sessionCoinsEl.textContent = sessionCoins;
+        localStorage.setItem('sessionCoins', sessionCoins);
+        
+        // Show success message
+        miningStatsEl.textContent = `Success! ${sessionCoins} coins transferred to your account.`;
+        
+        // Create transfer history
+        const transferRef = ref(db, `Mining/Transfers/${currentUser.phone}/${Date.now()}`);
+        await set(transferRef, {
+          amount: sessionCoins,
+          timestamp: serverTimestamp()
+        });
+        
+      } catch (error) {
+        console.error('Transfer error:', error);
+        miningStatsEl.textContent = "Transfer failed. Please try again.";
+      } finally {
+        // Reset button
+        transferBtn.textContent = "CV Transfer";
+        transferBtn.disabled = false;
+        
+        // Reset message after 5 seconds
+        setTimeout(() => {
+          miningStatsEl.textContent = "Keep mining for more coins!";
+        }, 5000);
+      }
+    }
+
+    // Create coin animation
+    function createCoinAnimation(e) {
+      const rect = miningCircle.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      
+      for (let i = 0; i < 5; i++) {
+        const coin = document.createElement("div");
+        coin.className = "mining-coins";
+        coin.textContent = "+1";
+        coin.style.left = x + "px";
+        coin.style.top = y + "px";
+        
+        // Randomize animation direction
+        const angle = Math.random() * Math.PI * 2;
+        const distance = 100 + Math.random() * 50;
+        const tx = Math.cos(angle) * distance;
+        const ty = -Math.abs(Math.sin(angle) * distance);
+        
+        coin.style.setProperty('--tx', `${tx}px`);
+        coin.style.setProperty('--ty', `${ty}px`);
+        
+        miningCircle.appendChild(coin);
+        
+        // Remove coin element after animation completes
+        setTimeout(() => {
+          if (coin.parentNode) coin.parentNode.removeChild(coin);
+        }, 1500);
+      }
+    }
+
+    // Create click effect
+    function createClickEffect(e) {
+      const rect = miningCircle.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      
+      const effect = document.createElement("div");
+      effect.style.position = "absolute";
+      effect.style.width = "20px";
+      effect.style.height = "20px";
+      effect.style.background = "rgba(255, 255, 255, 0.8)";
+      effect.style.borderRadius = "50%";
+      effect.style.pointerEvents = "none";
+      effect.style.left = x + "px";
+      effect.style.top = y + "px";
+      effect.style.transform = "translate(-50%, -50%)";
+      effect.style.animation = "clickRipple 0.6s ease-out";
+      
+      miningCircle.appendChild(effect);
+      
+      // Remove effect element after animation completes
+      setTimeout(() => {
+        effect.remove();
+      }, 600);
+    }
+
+    // Show redeem info
+    function showRedeemInfo() {
+      document.getElementById('redeemModal').style.display = 'block';
+    }
+
+    // Logout functionality
+    logoutBtn.addEventListener('click', () => {
+      // Clear user data
+      localStorage.removeItem('slideUser');
+      localStorage.removeItem('sessionCoins');
+      currentUser = null;
+      sessionCoins = 0;
+      
+      // Reset UI
+      sessionCoinsEl.textContent = '0';
+      firebaseCoinCount.textContent = '0';
+      usernameEl.textContent = 'Guest Miner';
+      miningStatsEl.textContent = 'Click the circle to start mining coins!';
+      
+      // Show login, hide app
+      loginContainer.style.display = 'block';
+      appContainer.style.display = 'none';
+      
+      // Reset form
+      nameInput.value = '';
+      phoneInput.value = '';
+      memberCodeInput.value = '';
+      acceptTerms.checked = false;
+    });
+
+    // Add CSS for click ripple animation
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes clickRipple {
+        0% {
+          transform: translate(-50%, -50%) scale(1);
+          opacity: 1;
+        }
+        100% {
+          transform: translate(-50%, -50%) scale(10);
+          opacity: 0;
+        }
+      }
+    `;
+    document.head.appendChild(style);
